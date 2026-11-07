@@ -1,0 +1,26 @@
+pluginManagement {
+    repositories {
+        maven {
+            name = 'Fabric'
+            url = 'https://maven.fabricmc.net/'
+        }
+        mavenCentral()
+        gradlePluginPortal()
+    }
+}
+
+rootProject.name = 'artificial-society'
+
+// The simulation engine is a plain-Java module with no external dependencies;
+// it always builds, even fully offline.
+include ':simulation'
+
+// The Minecraft integration module needs the Fabric and Mojang repositories.
+// Build with `-PsimulationOnly` to skip it in environments where those
+// repositories are unreachable:
+//
+//     gradle -PsimulationOnly build
+//
+if (!providers.gradleProperty('simulationOnly').present) {
+    include ':minecraft'
+}

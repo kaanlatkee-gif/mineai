@@ -1,0 +1,17 @@
+// Root build script — shared coordinates for all modules.
+//
+// The Fabric Loom plugin is intentionally NOT declared here: it is applied
+// only inside minecraft/build.gradle (via its own buildscript block) so that
+// `gradle -PsimulationOnly build` never contacts maven.fabricmc.net.
+
+allprojects {
+    group = project.findProperty('modGroup') ?: 'artificial.society'
+    version = project.findProperty('modVersion') ?: '1.0.0'
+}
+
+subprojects {
+    tasks.withType(JavaCompile).configureEach {
+        it.options.release = 21
+        it.options.encoding = 'UTF-8'
+    }
+}

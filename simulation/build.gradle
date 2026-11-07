@@ -1,0 +1,28 @@
+plugins {
+    id 'java-library'
+}
+
+// No external dependencies: the simulation engine is pure Java so that it can
+// be compiled and unit-tested without network access or Minecraft artifacts.
+repositories {
+    mavenCentral()
+}
+
+java {
+    sourceCompatibility = JavaVersion.VERSION_21
+    targetCompatibility = JavaVersion.VERSION_21
+}
+
+// The test-suite is plain Java (see src/test/java/.../tests/AllTests.java), so
+// it runs without any test-framework dependency. `gradle :simulation:build`
+// compiles and executes it via the check lifecycle.
+tasks.register('simulationTest', JavaExec) {
+    group = 'verification'
+    description = 'Runs the standalone simulation test suite (no Minecraft required).'
+    classpath = sourceSets.test.runtimeClasspath
+    mainClass = 'artificial.society.simulation.tests.AllTests'
+}
+
+tasks.named('check') {
+    dependsOn 'simulationTest'
+}

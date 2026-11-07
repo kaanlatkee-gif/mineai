@@ -1,0 +1,54 @@
+// Minecraft integration module (Fabric 1.21.1).
+//
+// Loom is applied through a buildscript classpath instead of the root
+// `plugins` block on purpose: the classpath is only resolved when this module
+// is included in the build, so `-PsimulationOnly` builds stay fully offline.
+
+buildscript {
+    repositories {
+        maven {
+            name = 'Fabric'
+            url = 'https://maven.fabricmc.net/'
+        }
+        mavenCentral()
+        gradlePluginPortal()
+    }
+    dependencies {
+        classpath "net.fabricmc:fabric-loom:${loom_version}"
+    }
+}
+
+apply plugin: 'fabric-loom'
+
+base {
+    archivesName = 'artificial-society'
+}
+
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+    minecraft "com.mojang:minecraft:${minecraft_version}"
+    mappings "net.fabricmc:yarn:${yarn_mappings}:v2"
+    modImplementation "net.fabricmc:fabric-loader:${loader_version}"
+    modImplementation "net.fabricmc.fabric-api:fabric-api:${fabric_version}"
+
+    // The simulation engine is embedded into the mod jar (jar-in-jar) and is
+    // compiled against as a plain Java library — never as a Minecraft mod.
+    implementation project(':simulation')
+    include project(':simulation')
+}
+
+processResources {
+    inputs.property 'version', project.version
+    filesMatching('fabric.mod.json') {
+        expand 'version': project.version
+    }
+}
+
+java {
+    sourceCompatibility = JavaVersion.VERSION_21
+    targetCompatibility = JavaVersion.VERSION_21
+    withSourcesJar()
+}

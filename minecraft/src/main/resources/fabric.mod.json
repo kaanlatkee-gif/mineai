@@ -1,0 +1,26 @@
+{
+  "schemaVersion": 1,
+  "id": "artificial_society",
+  "version": "${version}",
+  "name": "Artificial Society",
+  "description": "Autonomous NPC societies: an independent simulation engine with a thin Minecraft integration layer.",
+  "authors": [
+    "Artificial Society contributors"
+  ],
+  "license": "MIT",
+  "environment": "*",
+  "entrypoints": {
+    "main": [
+      "artificial.society.minecraft.ArtificialSocietyMod"
+    ],
+    "client": [
+      "artificial.society.minecraft.client.ArtificialSocietyClient"
+    ]
+  },
+  "depends": {
+    "fabricloader": ">=0.16.0",
+    "minecraft": "~1.21.1",
+    "java": ">=21",
+    "fabric-api": "*"
+  }
+}
