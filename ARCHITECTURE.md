@@ -83,11 +83,11 @@ MinecraftWorldAdapter.build(observer, tick)      [minecraft]
 
 ## Module/build boundary
 
-`settings.gradle` includes `:minecraft` only when `minecraft/` is present and
-`-PsimulationOnly` is not set; `minecraft/build.gradle` enables Fabric Loom
-only when the Fabric API/Gradle service repositories are reachable
-(`-PskipMinecraftBuild`). The simulation module therefore always builds
-standalone with zero external dependencies.
+`settings.gradle` includes `:minecraft` only when `-PsimulationOnly` is not
+set; the Loom plugin is applied through `minecraft/build.gradle`'s own
+buildscript classpath, so `-PsimulationOnly build` never contacts
+maven.fabricmc.net. The simulation module therefore always builds standalone
+with zero external dependencies.
 
 ## Boundary enforcement summary
 
